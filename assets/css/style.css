@@ -1,0 +1,24 @@
+/* Stylesheet for Basic-Portfolio */
+
+body {
+    background-image: url("../images/background.jpg");
+    background-color: #cccccc;
+}
+
+#gtext {
+    font-family: 'Sofia', cursive;
+}
+
+a:hover { 
+    font-weight: bold;
+}
+
+@keyframes fade {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+#fadetext {
+    animation-name: fade;
+    animation-duration: 4s;
+}
