@@ -1,37 +1,33 @@
-// Dependencies
-// =============================================================
-var express = require("express");
+const express = require("express");
 var path = require("path");
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Sets up the Express App
-// =============================================================
-var app = express();
-var PORT = process.env.PORT || 3000;
-
-// Sets up the Express app to handle data parsing
+// Define middleware here
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(express.static(__dirname + "/public"));
 
+// Serve up static assets (usually on heroku)
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+}
 
 // Routes
-// =============================================================
-
-// Basic route that sends the user first to the AJAX Page
+// HTML Routes
 app.get("/", function(req, res) {
-  res.sendFile(path.join(__dirname, "index.html"));
+  res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
 app.get("/portfolio", function(req, res) {
-  res.sendFile(path.join(__dirname, "portfolio.html"));
+  res.sendFile(path.join(__dirname, "public/portfolio.html"))
 });
 
 app.get("/contact", function(req, res) {
-  res.sendFile(path.join(__dirname, "contact.html"));
+  res.sendFile(path.join(__dirname, "public/contact.html"))
 });
 
-
-// Starts the server to begin listening
-// =============================================================
+// Start the API server
 app.listen(PORT, function() {
-  console.log("App listening on PORT " + PORT);
+  console.log(`🌎  ==> API Server now listening on PORT ${PORT}!`);
 });

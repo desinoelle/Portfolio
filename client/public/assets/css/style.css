@@ -22,3 +22,8 @@ a:hover {
     animation-name: fade;
     animation-duration: 4s;
 }
+
+.wrapper {
+    min-height: 100%;
+    padding-bottom: 100px;
+}
