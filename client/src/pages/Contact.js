@@ -1,53 +1,46 @@
-import React from "react";
+import React, { Component } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
 
-class Contact extends React.Component {
-  constructor(...args) {
-    super(...args);
-
-    this.state = { validated: false };
+class Contact extends Component {
+  state = {
+    name: "",
+    message: "",
+    email: "",
+    sent: false,
+    buttonText: "Send"
   }
 
-  handleSubmit(event) {
-    const name = document.getElementById("name").value;
-    const email = document.getElementById("email").value;
-    const message = document.getElementById("message").value;
-    const form = event.currentTarget;
-
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
+  handleSubmit = (e) => {
+    e.preventDefault();
+  
+    this.setState({
+        buttonText: '...sending'
+    })
+  
+    let data = {
+        name: this.state.name,
+        email: this.state.email,
+        message: this.state.message
     }
-    this.setState({ validated: true });
-
-    if (!name.value || !email.value || !message.value) {
-      console.log("Error");
-    } else {
-      event.preventDefault();
-        
-      axios({
-        method: "POST", 
-        url:"http://localhost:3002/send", 
-        data: {
-          name: name,   
-          email: email,  
-          messsage: message
-        }
-        }).then((response)=>{
-            if (response.data.msg === 'success'){
-                alert("Message Sent."); 
-                this.resetForm();
-            }else if(response.data.msg === 'fail'){
-                alert("Message failed to send.");
-            }
-        })
-    }
+    
+    axios.post('API_URI', data)
+    .then( res => {
+        this.setState({ sent: true }, this.resetForm())
+    })
+    .catch( () => {
+      console.log('Message not sent')
+    })
   }
 
-  resetForm() {
-    document.getElementById("contact-form").reset();
+  resetForm = () => {
+    this.setState({
+        name: '',
+        message: '',
+        email: '',
+        buttonText: 'Message Sent'
+    })
   }
 
   render() {
@@ -60,45 +53,49 @@ class Contact extends React.Component {
             Use the form below to send me an email.
           </p>
         </div>
+
         <div className="jumbotron bg-dark text-white">
           <Form
             noValidate
             validated={validated}
-            onSubmit={event => this.handleSubmit(event)}
+            onSubmit={e => this.handleSubmit(e)}
             id="contact-form"
           >
-            <Form.Group controlId="validationName">
+            <Form.Group>
             <Form.Label>Name</Form.Label>
             <Form.Control
               required
               type="text"
               placeholder="Enter your name."
-              id="name"
+              onChange = {e => this.setState({ name: e.target.value })}
+              value={this.state.name}
             />
             <Form.Control.Feedback type="invalid">Please enter your name.</Form.Control.Feedback>
             </Form.Group>
-            <Form.Group controlId="validationEmail">
+            <Form.Group>
             <Form.Label>Email</Form.Label>
             <Form.Control
               required
               type="email"
               placeholder="Enter your email address."
-              id="email"
+              onChange = {e => this.setState({ email: e.target.value })}
+              value={this.state.email}
             />
             <Form.Control.Feedback type="invalid">Please enter a valid email.</Form.Control.Feedback>
             </Form.Group>
-            <Form.Group controlId="validationMessage">
+            <Form.Group>
             <Form.Label>Message</Form.Label>
             <Form.Control
               required
               as="textarea"
               rows="5"
-              id="message"
+              onChange = {e => this.setState({ message: e.target.value })}
+              value={this.state.message}
             />
             <Form.Control.Feedback type="invalid">Please enter a messsage.</Form.Control.Feedback>
             </Form.Group>
           
-            <Button variant="danger" type="submit">Submit form</Button>
+            <Button variant="danger" type="submit">{this.state.buttonText}</Button>
           </Form>
         </div>
       </div>

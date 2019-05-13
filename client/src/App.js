@@ -1,4 +1,4 @@
-import React from "react";
+import React, {Component} from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Portfolio from "./pages/Portfolio";
@@ -8,8 +8,22 @@ import Contact from "./pages/Contact";
 import Wrapper from "./components/Wrapper";
 import Navbar from "./components/NavBar";
 
-function App() {
-  return (
+class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {}
+    this.connecToServer = this.connecToServer.bind(this);
+  }
+  connecToServer() {
+    fetch('/');
+  }
+
+  componentDidMount() {
+    this.connecToServer();
+  }
+
+  render() {
+    return (
     <Router>
       <div>
         <Navbar />
@@ -22,7 +36,8 @@ function App() {
         </Wrapper>
       </div>
     </Router>
-  );
+    );
+  }
 }
 
 export default App;
