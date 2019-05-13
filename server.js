@@ -3,6 +3,10 @@ const app = express();
 const path = require('path');
 const port = process.env.PORT || 5000;
 
+// Define middleware here
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
 //Static file declaration
 app.use(express.static(path.join(__dirname, 'client/build')));
 
