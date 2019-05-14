@@ -5,12 +5,12 @@ function Home() {
   <div className="container mt-5">
     <div className="jumbotron text-center bg-dark text-white">
       <h1 className="display-4" id="fadetext">Welcome to Desiree's Designs</h1>
+      <img src="./assets/images/divider.svg" className="img-fluid" alt="Divider" />
       <p className="lead" id="fadetext">
       Specializing in creative website designs and application development.
       </p>
     </div>
     <div className="jumbotron bg-dark text-white">
-      <img src="./assets/images/HomeDivider.svg" className="img-fluid mb-4" alt="Divider" />
       <div className="clearfix">
         <div className="card float-left mr-4 mt-1">
           <img className="card-img-top" src="./assets/images/Me.jpg" alt="Me" />
