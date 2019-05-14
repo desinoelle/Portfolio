@@ -122,18 +122,26 @@ function Contact() {
         <div className="jumbotron text-center bg-dark text-white">
           <h3>Follow me on social media!</h3>
           <div className="clearfix d-flex justify-content-center bg-white p-3 mt-3 rounded">
+            <div className="mr-5 ml-5">
             <a href="https://www.linkedin.com/in/desiree-howell/" target="_blank" rel="noopener noreferrer">
-              <img src="./assets/images/linkedin.png" className="float-left mr-5" alt="LinkedIn" />
+              <img src="./assets/images/linkedin.png" className="img-fluid float-left" alt="LinkedIn" />
             </a>
+            </div>
+            <div className="mr-5">
             <a href="https://www.facebook.com/dezzienoelle" target="_blank" rel="noopener noreferrer">
-              <img src="./assets/images/facebook.png" className="float-left mr-5" alt="Facebook" /> 
+              <img src="./assets/images/facebook.png" className="img-fluid float-left" alt="Facebook" /> 
             </a>
+            </div>
+            <div className="mr-5">
             <a href="https://www.instagram.com/yuhgirldes/" target="_blank" rel="noopener noreferrer">
-              <img src="./assets/images/instagram.jfif" className="float-left mr-5" alt="Instagram" />  
+              <img src="./assets/images/instagram.jfif" className="img-fluid float-left" alt="Instagram" />  
             </a>
+            </div>
+            <div className="mr-5">
             <a href="https://github.com/desinoelle" target="_blank" rel="noopener noreferrer">
-              <img src="./assets/images/github.png" className="float-left" alt="GitHub" />  
+              <img src="./assets/images/github.png" className="img-fluid float-left" alt="GitHub" />  
             </a>
+            </div>
           </div>
         </div>
       </div>
