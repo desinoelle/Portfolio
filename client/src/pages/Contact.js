@@ -1,50 +1,10 @@
-import React, { Component } from "react";
+import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { Formik } from "formik";
 import axios from "axios";
 
-class Contact extends Component {
-  state = {
-    name: "",
-    message: "",
-    email: "",
-    sent: false,
-    buttonText: "Send"
-  }
-
-  handleSubmit = (e) => {
-    e.preventDefault();
-  
-    this.setState({
-        buttonText: '...sending'
-    })
-  
-    let data = {
-        name: this.state.name,
-        email: this.state.email,
-        message: this.state.message
-    }
-    
-    axios.post('API_URI', data)
-    .then( res => {
-        this.setState({ sent: true }, this.resetForm())
-    })
-    .catch( () => {
-      console.log('Message not sent')
-    })
-  }
-
-  resetForm = () => {
-    this.setState({
-        name: '',
-        message: '',
-        email: '',
-        buttonText: 'Message Sent'
-    })
-  }
-
-  render() {
-    const { validated } = this.state;
+function Contact() {
     return (
       <div className="container mt-5">
         <div className="jumbotron text-center bg-dark text-white">
@@ -55,52 +15,121 @@ class Contact extends Component {
         </div>
 
         <div className="jumbotron bg-dark text-white">
+          <Formik
+            initialValues={{ name: '', email: '', message: '' }}
+            validate={values => {
+              let errors = {};
+              if (!values.name) {
+                errors.name = 'Required';
+              }
+              if (!values.message) {
+                errors.message = 'Required';
+              }
+              if (!values.email) {
+                errors.email = 'Required';
+              } else if (
+                !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+              ) {
+                errors.email = 'Invalid email address';
+              }
+              return errors;
+            }}
+            onSubmit={(values, { setSubmitting }) => {
+              setTimeout(() => {
+                let data = {
+                  name: values.name,
+                  email: values.email,
+                  message: values.message
+              }
+              
+              axios.post('http://localhost:5000/send', data)
+              .then( res => {
+                alert("Message sent!");
+                values.name = "";
+                values.email = "";
+                values.message = "";
+                setSubmitting(false);  
+              })
+              .catch( () => {
+                console.log('Message not sent')
+              })
+              }, 400);
+            }}
+          >
+          {({
+            values,
+            errors,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            isSubmitting,
+            isInvalid
+          }) => (
           <Form
-            noValidate
-            validated={validated}
-            onSubmit={e => this.handleSubmit(e)}
+            onSubmit={handleSubmit}
             id="contact-form"
           >
             <Form.Group>
             <Form.Label>Name</Form.Label>
             <Form.Control
-              required
               type="text"
+              name="name"
               placeholder="Enter your name."
-              onChange = {e => this.setState({ name: e.target.value })}
-              value={this.state.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.name}
+              isInvalid={!!errors.name}
             />
             <Form.Control.Feedback type="invalid">Please enter your name.</Form.Control.Feedback>
             </Form.Group>
             <Form.Group>
             <Form.Label>Email</Form.Label>
             <Form.Control
-              required
               type="email"
+              name="email"
               placeholder="Enter your email address."
-              onChange = {e => this.setState({ email: e.target.value })}
-              value={this.state.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.email}
+              isInvalid={!!errors.email}
             />
             <Form.Control.Feedback type="invalid">Please enter a valid email.</Form.Control.Feedback>
             </Form.Group>
             <Form.Group>
             <Form.Label>Message</Form.Label>
             <Form.Control
-              required
               as="textarea"
               rows="5"
-              onChange = {e => this.setState({ message: e.target.value })}
-              value={this.state.message}
+              name="message"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              value={values.message}
+              isInvalid={!!errors.message}
             />
             <Form.Control.Feedback type="invalid">Please enter a messsage.</Form.Control.Feedback>
             </Form.Group>
-          
-            <Button variant="danger" type="submit">{this.state.buttonText}</Button>
+
+            <div class="clearfix">
+              <Button variant="danger" type="submit" disabled={isSubmitting}>Send Message</Button>
+              <p className="lead float-right">Or email me at: <strong>desinoelle@gmail.com</strong></p>
+            </div>
+            
           </Form>
+          )}
+          </Formik>
+        </div>
+
+        <div className="jumbotron text-center bg-dark text-white">
+          <h3>Follow me on social media!</h3>
+          <div className="clearfix d-flex justify-content-center bg-white p-3 mt-3 rounded">
+            <img src="./assets/images/linkedin.png" className="rounded float-left mr-3" alt="LinkedIn" />
+            <img src="./assets/images/facebook.png" className="rounded float-left mr-3" alt="Facebook" />
+            <img src="./assets/images/instagram.jfif" className="rounded float-left mr-3" alt="Instagram" />
+            <img src="./assets/images/github.png" className="rounded float-left" alt="GitHub" />
+          </div>
         </div>
       </div>
     );
-  }
 }
 
 export default Contact;
