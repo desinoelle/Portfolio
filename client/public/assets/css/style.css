@@ -23,6 +23,10 @@ a:hover {
     animation-duration: 4s;
 }
 
+#about::first-letter{
+    font-size: 30px;
+}
+
 .wrapper {
     min-height: 100%;
     padding-bottom: 100px;
