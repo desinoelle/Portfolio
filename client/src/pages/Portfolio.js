@@ -55,7 +55,7 @@ function Portfolio() {
           <img src="./assets/images/angelhare.jpg" className="float-left rounded mr-3" alt="..." />
           <h5 className="mt-0 mb-1">Angelhare Forest</h5>
           <p>Angelhare Forest is a Christmas Tree business owned by my family. I am the designer and upkeeper of this website.</p>
-          <a className="btn btn-light" href="angelhareforest.com" role="button" target="_blank" rel="noopener noreferrer">View</a>
+          <a className="btn btn-light" href="http://www.angelhareforest.com/" role="button" target="_blank" rel="noopener noreferrer">View</a>
         </div>
         <div className="clearfix mb-4">
           <img src="./assets/images/bamazon.png" className="float-left rounded mr-3" alt="..." />
